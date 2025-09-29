@@ -1,5 +1,4 @@
 #include <iostream>
-#include <conio.h>
 #include <ctime>
 #include <string>
 using namespace std;
@@ -97,7 +96,7 @@ cout << wycentrujTekst(" ESC – Wyjście") << "\n\n";
 }
 
 void pokazLabirynt(char mapa[HEIGHT][WIDTH + 1], int x, int y, double czas = -1) {
-system("clear");
+cout << "\033[2J\033[1;1H";;
 int pusteWiersze = (SCREEN_HEIGHT - HEIGHT - 3) / 2;
 for (int i = 0; i < pusteWiersze; i++) cout << "\n";
 
@@ -126,9 +125,8 @@ clock_t start = clock();
 while (true) {  
     double aktualnyCzas = (double)(clock() - start) / CLOCKS_PER_SEC;  
     pokazLabirynt(mapa, x, y, pokazCzas ? aktualnyCzas : -1);  
-
-    if (_kbhit()) {  
-        char ruch = _getch();  
+ 
+        char ruch = getchar();  
         if (ruch == 27) return false; // ESC wyjście z poziomu  
 
         int nx = x, ny = y;  
@@ -151,12 +149,12 @@ while (true) {
     }  
 }
 
-}
+
 
 void trybKonkretny() {
 pokazMenu();
 cout << "\n" << wycentrujTekst("Wybierz poziom (1-5): ");
-char c = _getch();
+char c = getchar();
 if (c >= '1' && c <= '5') {
 int nr = c - '1';
 grajPoziom(labirynty[nr]);
@@ -196,7 +194,7 @@ double czas = (double)(clock() - startCzas) / CLOCKS_PER_SEC;
 
     char c;  
     do {  
-        c = _getch();  
+        c = getchar();  
         if (c == 27) return;  
     } while (c != ' ' && c != 27);  
 }
@@ -206,7 +204,7 @@ double czas = (double)(clock() - startCzas) / CLOCKS_PER_SEC;
 int main() {
 while (true) {
 pokazMenu();
-char wybor = _getch();
+char wybor = getchar();
 if (wybor == 'k' || wybor == 'K') trybKonkretny();
 else if (wybor == '\r' || wybor == 10) trybNormalny();
 else if (wybor == ' ') trybNaCzas();
